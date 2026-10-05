@@ -13,7 +13,7 @@ units.push({
     points: [
       "\"tempered\" ve \"toughened\" aynı anlama gelir: temperli cam. ABD'de tempered, İngiltere'de toughened daha yaygındır.",
       "\"laminated glass\" iki veya daha fazla camın PVB ya da SGP ara katmanla birleştirilmesidir.",
-      "\"heat-strengthened\" glass temperli kadar güçlü değildir; yaklaşık iki kat dayanımlı, yarı temperli camdır.",
+      "\"heat-strengthened\" (yarı temperli) cam, float camdan yaklaşık iki kat dayanıklıdır ama tam temperli cam kadar güçlü değildir.",
       "IGU (insulated glass unit) Türkçede ısıcam / yalıtımlı cam ünitesi olarak geçer.",
       "Malzeme anlatırken: \"X is made of...\", \"X consists of...\", \"X is used for...\" kalıpları çok işe yarar."
     ],
@@ -26,12 +26,12 @@ units.push({
   },
   cards: [
     { en: "float glass", tr: "float cam", ex: "All our products start as clear float glass." },
-    { en: "tempered / toughened glass", tr: "temperli cam", ex: "Side scuttles must use toughened safety glass." },
-    { en: "heat-strengthened glass", tr: "ısıl dayanımlı (yarı temperli) cam", ex: "Heat-strengthened glass is often used inside laminated panes." },
+    { en: "tempered / toughened glass", tr: "temperli cam", ex: "Side scuttles are glazed with toughened safety glass." },
+    { en: "heat-strengthened glass", tr: "yarı temperli (ısıl güçlendirilmiş) cam", ex: "Heat-strengthened glass is often used in laminated panes." },
     { en: "laminated glass", tr: "lamine cam", ex: "Laminated glass stays in the frame even when it breaks." },
     { en: "insulated glass unit (IGU)", tr: "ısıcam / yalıtımlı cam ünitesi", ex: "The accommodation windows are double-glazed IGUs." },
     { en: "heated glass", tr: "ısıtmalı cam", ex: "The heated glass keeps the bridge windows clear in winter." },
-    { en: "tinted glass", tr: "renkli (füme) cam", ex: "Tinted glass reduces glare on the bridge." },
+    { en: "tinted glass", tr: "renkli (füme) cam", ex: "Tinted glass is used in passenger areas, but not in bridge windows." },
     { en: "interlayer", tr: "ara katman", ex: "The interlayer holds the fragments together." },
     { en: "PVB (polyvinyl butyral)", tr: "PVB (polivinil bütiral) ara katman", ex: "We use a 1.52 mm PVB interlayer as standard." },
     { en: "SGP (SentryGlas) interlayer", tr: "SGP ara katman (sert iyonoplast)", ex: "SGP is stiffer and stronger than PVB." },
@@ -48,11 +48,12 @@ units.push({
     { type: "match", pairs: [["tempered", "temperli"], ["laminated", "lamine"], ["tinted", "renkli / füme"], ["heated", "ısıtmalı"], ["interlayer", "ara katman"]],
       explain: "Temel cam türlerinin Türkçe karşılıkları." },
     { type: "fill", q: "Laminated glass ___ of two or more panes and an interlayer.",
-      answers: ["consists"], hint: "oluşur", explain: "\"consist of\" = -den oluşmak. Tekil özne için consists." },
+      answers: ["consists", "is made up", "is composed", "is made"], hint: "oluşur", explain: "\"consist of\" = -den oluşmak. Tekil özne için consists (is made up of / is composed of da olur)." },
     { type: "mcq", q: "Why do ship owners choose heated glass for the bridge?",
       options: ["To reduce the weight", "To make the window cheaper", "To keep the windows free of ice and fog", "To change the colour"],
       answer: 2, explain: "Isıtmalı cam buz ve buğuyu önleyerek görüşü açık tutar." },
     { type: "order", answer: "Our bridge windows are made of laminated toughened glass",
+      alts: ["Our bridge windows are made of toughened laminated glass"],
       tr: "Köprüüstü pencerelerimiz lamine temperli camdan yapılır.", explain: "\"be made of\" malzemeyi anlatır." },
     { type: "fill", q: "SGP is stiffer ___ PVB, so it is used for large panes.",
       answers: ["than"], explain: "Karşılaştırmada \"-er than\" kullanılır." },
@@ -67,9 +68,9 @@ units.push({
       options: ["not as strong as", "stronger than", "the same as"],
       answer: 0, explain: "Yarı temperli cam, tam temperli kadar güçlü değildir (not as ... as)." },
     { type: "fill", q: "An IGU is used ___ thermal and acoustic insulation in cabins.",
-      answers: ["for"], explain: "\"be used for + isim\" = ... için kullanılmak." },
-    { type: "listen", text: "Tinted glass reduces glare on the bridge.",
-      tr: "Renkli cam köprüüstündeki göz kamaşmasını azaltır." }
+      answers: ["for", "to provide"], explain: "\"be used for + isim\" = ... için kullanılmak." },
+    { type: "listen", text: "Tinted glass reduces glare in the passenger areas.",
+      tr: "Renkli cam yolcu alanlarındaki göz kamaşmasını azaltır." }
   ]
 });
 
@@ -107,7 +108,7 @@ units.push({
     { en: "sealant", tr: "sızdırmazlık macunu / mastik", ex: "Apply sealant evenly around the edge." },
     { en: "clamp ring", tr: "kelepçe (baskı) halkası", ex: "The clamp ring holds the glass in the frame." },
     { en: "wiper", tr: "silecek", ex: "The pendulum wiper covers most of the glass." },
-    { en: "watertight / weathertight", tr: "su geçirmez / hava şartlarına dayanıklı", ex: "The window must be weathertight." }
+    { en: "watertight / weathertight", tr: "su geçirmez (etanş) / hava koşullarına karşı sızdırmaz", ex: "The window must be weathertight." }
   ],
   exercises: [
     { type: "match", pairs: [["gasket", "conta"], ["frame", "kasa / çerçeve"], ["wiper", "silecek"], ["deadlight", "fırtına kapağı"], ["clamp ring", "kelepçe halkası"]],
@@ -116,11 +117,12 @@ units.push({
       options: ["Bridge window", "Deadlight", "Skylight", "Side scuttle"],
       answer: 3, explain: "Resmi terim \"side scuttle\"; porthole günlük kullanımdır." },
     { type: "mcq", q: "A deadlight is ___.",
-      options: ["an inner steel cover that protects a side scuttle", "a type of tinted glass", "a lamp on the bridge"],
+      options: ["an inner metal cover that protects a side scuttle", "a type of tinted glass", "a lamp on the bridge"],
       answer: 0, explain: "Deadlight, lombozun iç tarafındaki metal kör kapaktır." },
     { type: "fill", q: "The window is fitted ___ an electric wiper.",
       answers: ["with"], explain: "\"be fitted with\" = ile donatılmış olmak." },
     { type: "order", answer: "The glass is held in the frame by a clamp ring",
+      alts: ["The glass is held by a clamp ring in the frame"],
       tr: "Cam, kasaya bir kelepçe halkası ile tutturulur.", explain: "Edilgen yapı: is held by." },
     { type: "mcq", q: "Which material do you apply with a gun around the glass edge?",
       options: ["Gasket", "Clamp ring", "Sealant", "Frame"],
@@ -133,6 +135,7 @@ units.push({
       options: ["In the engine room", "In the cargo hold", "Where the ship is steered", "In the crew cabins"],
       answer: 2, explain: "Wheelhouse gemiyi yönettikleri yer, yani dümen evidir." },
     { type: "order", answer: "Do the bridge windows need wipers and heating",
+      alts: ["Do the bridge windows need heating and wipers"],
       tr: "Köprüüstü pencereleri silecek ve ısıtmaya ihtiyaç duyuyor mu?", explain: "Do + özne + fiil soru yapısı." },
     { type: "fill", q: "A good gasket keeps the window ___ (su geçirmez).",
       answers: ["watertight", "weathertight"], explain: "watertight = su geçirmez." },
@@ -140,7 +143,7 @@ units.push({
       tr: "Ana güvertede on iki dikdörtgen pencere var." },
     { type: "mcq", q: "Small talk: \"Have you ever been on a cruise?\" — Best natural answer:",
       options: ["Yes, I am going on a cruise yesterday.", "No, I never go.", "Yes, once. My cabin only had a tiny porthole!", "I have been cruise."],
-      answer: 2, explain: "Doğal ve dilbilgisel olarak doğru tek cevap; diğerlerinde zaman hatası var." }
+      answer: 2, explain: "Doğal ve dilbilgisel olarak doğru tek cevap; diğerlerinde zaman veya yapı hatası var." }
   ]
 });
 
@@ -156,7 +159,7 @@ units.push({
       "800 x 600 → \"eight hundred by six hundred\"; ±0.5 mm → \"plus or minus zero point five millimetres\".",
       "Ondalık: 1.52 → \"one point five two\" (Türkçedeki virgül yerine nokta!).",
       "kg/m² → \"kilograms per square metre\"; R50 → \"a corner radius of fifty millimetres\".",
-      "Kenar işlemesi: ground (taşlanmış), polished (parlatılmış/rodajlı), arrised (pahı kırılmış, emniyet kenarı).",
+      "Kenar işlemesi: ground (taşlanmış / mat rodajlı), polished (parlatılmış / parlak rodajlı), arrised (pahı kırılmış, emniyet kenarı).",
       "\"thick / wide / high\" sıfat, \"thickness / width / height\" isimdir: \"10 mm thick\" ama \"a thickness of 10 mm\"."
     ],
     examples: [
@@ -172,8 +175,8 @@ units.push({
     { en: "width x height", tr: "en x boy", ex: "Please always give the size as width by height." },
     { en: "corner radius", tr: "köşe yarıçapı", ex: "All corners have a radius of fifty millimetres." },
     { en: "edge work", tr: "kenar işleme", ex: "Edge work is included in the price." },
-    { en: "ground edge", tr: "taşlanmış kenar", ex: "A ground edge is enough for framed glass." },
-    { en: "polished edge", tr: "parlatılmış (rodajlı) kenar", ex: "Exposed edges should be polished." },
+    { en: "ground edge", tr: "taşlanmış (mat rodajlı) kenar", ex: "A ground edge is enough for framed glass." },
+    { en: "polished edge", tr: "parlatılmış (parlak rodajlı) kenar", ex: "Exposed edges should be polished." },
     { en: "arrised edge", tr: "pahı kırılmış (emniyet) kenar", ex: "Arrised edges are safer to handle." },
     { en: "flatness / bow", tr: "düzlük / bombe (eğrilik)", ex: "Tempering can cause some bow in the glass." },
     { en: "weight per square metre", tr: "metrekare ağırlığı", ex: "Glass weighs two point five kilograms per square metre per millimetre." },
@@ -188,12 +191,13 @@ units.push({
       options: ["plus or minus zero point five millimetres", "more or less zero comma five", "plus minus half millimetre"],
       answer: 0, explain: "± = plus or minus; ondalık nokta = point." },
     { type: "fill", q: "The glass is twelve millimetres ___.",
-      answers: ["thick"], hint: "sıfat", explain: "Rakamdan sonra sıfat gelir: 12 mm thick." },
+      answers: ["thick"], hint: "sıfat: kalın", explain: "Ölçüden sonra sıfat gelir: 12 mm thick." },
     { type: "fill", q: "The glass has a ___ of twelve millimetres.",
-      answers: ["thickness"], hint: "isim", explain: "\"a ... of\" yapısında isim kullanılır: thickness." },
+      answers: ["thickness"], hint: "isim: kalınlık", explain: "\"a ... of\" yapısında isim kullanılır: thickness." },
     { type: "match", pairs: [["ground edge", "taşlanmış kenar"], ["polished edge", "parlatılmış kenar"], ["arrised edge", "pahı kırılmış kenar"], ["corner radius", "köşe yarıçapı"], ["flatness", "düzlük"]],
       explain: "Kenar işleme ve geometri terimleri." },
     { type: "order", answer: "What is the tolerance on width and height",
+      alts: ["What is the tolerance on height and width"],
       tr: "En ve boydaki tolerans nedir?", explain: "Wh- soru: What is ...?" },
     { type: "mcq", q: "Float glass weighs about 2.5 kg/m² per mm. What does a 10 mm pane weigh per square metre?",
       options: ["10 kg", "2.5 kg", "50 kg", "25 kg"],

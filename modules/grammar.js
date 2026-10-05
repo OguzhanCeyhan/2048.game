@@ -19,7 +19,7 @@ window.EA_MODULES.push({
           "a + ünsüz sesi (a window, a university), an + ünlü sesi (an engineer, an hour).",
           "the: ikinci kez bahsedilen, tek olan ya da bağlamdan bilinen şey (the quotation I sent you, the only supplier).",
           "Zero article: genel anlamda çoğul/sayılamayan isimler (Glass is fragile. Customers want fast delivery.)",
-          "Sayılamayanlar: information, equipment, advice, feedback, luggage, furniture, news → -s almaz; 'some' veya 'a piece of' ile kullanılır.",
+          "Sayılamayanlar: information, equipment, advice, feedback, luggage, furniture → çoğul -s almaz; 'some' veya 'a piece of' ile kullanılır. 'news' -s ile bitse de tekildir: The news is good.",
           "glass (malzeme, sayılamaz) / a glass (bardak) / glasses (gözlük)."
         ],
         examples: [
@@ -46,8 +46,8 @@ window.EA_MODULES.push({
           options: ["a", "— (artikel yok)", "the", "an"], answer: 3,
           explain: "Meslek söylerken a/an kullanılır; 'engineer' ünlü sesle başladığı için 'an'." },
         { type: "mcq", q: "Could you give me ___ advice about visiting Istanbul?",
-          options: ["an", "a few", "some", "many"], answer: 2,
-          explain: "advice sayılamaz → 'some advice' ya da 'a piece of advice'." },
+          options: ["an", "a few", "a piece of", "many"], answer: 2,
+          explain: "advice sayılamaz: 'an / a few / many advice' yanlış. Tek bir tavsiye için 'a piece of advice' (ya da 'some advice')." },
         { type: "fill", q: "I have a meeting with ___ CEO of a Greek shipping company tomorrow.",
           answers: ["the"], hint: "şirketin tek CEO'su",
           explain: "Bir şirketin tek bir CEO'su vardır → belirli → 'the'." },
@@ -147,6 +147,7 @@ window.EA_MODULES.push({
             "She speaks English more fluently than me.", "She speaks English fluentlier than me."], answer: 2,
           explain: "Fiili niteleyen zarf (fluently) → more fluently than." },
         { type: "order", answer: "This is the thickest glass we have ever produced.",
+          alts: ["This glass is the thickest we have ever produced."],
           tr: "Bu, şimdiye kadar ürettiğimiz en kalın cam.",
           explain: "the + -est + ever (present perfect) kalıbı." }
       ]
