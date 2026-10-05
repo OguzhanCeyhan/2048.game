@@ -230,7 +230,7 @@ window.EA_MODULES.push({
         { en: "That sounds...", tr: "Kulağa ... geliyor.", ex: "That sounds amazing!" },
         { en: "Tell me more about it.", tr: "Biraz daha anlat.", ex: "A new project? Tell me more about it." },
         { en: "What made you decide to...?", tr: "...'meye nasıl karar verdin? / Seni buna ne yöneltti?", ex: "What made you decide to move here?" },
-        { en: "Same here.", tr: "Bende de öyle / Ben de.", ex: "I hate early flights. — Same here." },
+        { en: "Same here.", tr: "Ben de (öyle).", ex: "I hate early flights. — Same here." },
         { en: "In what way?", tr: "Ne açıdan?", ex: "It was different. — In what way?" },
         { en: "I've always wanted to...", tr: "Hep ...'mak istemişimdir.", ex: "I've always wanted to visit Iceland." },
         { en: "How did that happen?", tr: "Bu nasıl oldu?", ex: "You met the CEO on a plane? How did that happen?" },
@@ -363,7 +363,7 @@ window.EA_MODULES.push({
       cards: [
         { en: "It's well worth a visit.", tr: "Görmeye kesinlikle değer.", ex: "Cappadocia is well worth a visit." },
         { en: "Make sure you try...", tr: "...'i mutlaka dene.", ex: "Make sure you try the künefe." },
-        { en: "It's a bit like...", tr: "Biraz ...'e benziyor.", ex: "Ayran is a bit like a salty yoghurt drink." },
+        { en: "It's a bit like...", tr: "Biraz ...'e benziyor.", ex: "Lahmacun is a bit like a thin, crispy pizza." },
         { en: "a tourist trap", tr: "turist tuzağı (pahalı, turistik yer)", ex: "That restaurant is a bit of a tourist trap." },
         { en: "off the beaten track", tr: "turistik olmayan, keşfedilmemiş (Amerikan: off the beaten path)", ex: "If you want something off the beaten track, try Şirince." },
         { en: "It can get pretty crowded.", tr: "Epey kalabalık olabiliyor.", ex: "Taksim can get pretty crowded at weekends." },
@@ -379,8 +379,8 @@ window.EA_MODULES.push({
           answer: 1, explain: "Somut öneri + 'well worth it' doğal ve yardımcı." },
         { type: "fill", q: "Make ___ you try the baklava while you're here.", answers: ["sure"], hint: "mutlaka",
           explain: "'Make sure you...' = mutlaka ...'" },
-        { type: "mcq", q: "How do you explain ‘ayran’ to a foreigner?",
-          options: ["It's ayran.", "It's Turkish milk.", "It's a bit like a salty yoghurt drink.", "It's white."],
+        { type: "mcq", q: "How do you explain ‘lahmacun’ to a foreigner?",
+          options: ["It's lahmacun.", "It's Turkish food.", "It's a bit like a thin, crispy pizza with minced meat.", "It's round."],
           answer: 2, explain: "'It's a bit like...' bilinen bir şeye benzeterek açıklar." },
         { type: "order", answer: "It can get pretty crowded at weekends", tr: "Hafta sonları epey kalabalık olabiliyor.",
           alts: ["At weekends, it can get pretty crowded"],
@@ -390,7 +390,7 @@ window.EA_MODULES.push({
         { type: "fill", q: "Gaziantep is famous ___ its baklava.", answers: ["for"], hint: "edat",
           explain: "'Famous for' = ...ile ünlü." },
         { type: "mcq", q: "A: ‘Is it rude to refuse tea in Turkey?’ — Best answer?",
-          options: ["Not at all, but it's considered polite to accept at least one glass.", "Yes, very rude!", "Tea is tea.", "I don't drink."],
+          options: ["Not really, but it's considered polite to accept at least one glass.", "Yes, very rude!", "Tea is tea.", "I don't drink."],
           answer: 0, explain: "Kültürü nazikçe açıklar: 'It's considered polite to...'" },
         { type: "listen", text: "Have you had a chance to look around?", tr: "Etrafı gezme fırsatın oldu mu?" },
         { type: "order", answer: "If I were you, I'd avoid the bridge at rush hour", tr: "Senin yerinde olsam yoğun saatte köprüden kaçınırdım.",
@@ -424,7 +424,7 @@ window.EA_MODULES.push({
           { en: "I see your point, but I think it's a bit more complicated.", tr: "Ne demek istediğini anlıyorum ama bence biraz daha karmaşık." },
           { en: "I couldn't agree more.", tr: "Sonuna kadar katılıyorum." },
           { en: "I'm not so sure about that.", tr: "Bundan pek emin değilim." },
-          { en: "I take your point, but laminated glass is safer in this case.", tr: "Haklısınız ama bu durumda lamine cam daha güvenli." }
+          { en: "I take your point, but laminated glass is safer in this case.", tr: "Söylediğinizi anlıyorum ama bu durumda lamine cam daha güvenli." }
         ]
       },
       cards: [
@@ -438,7 +438,7 @@ window.EA_MODULES.push({
         { en: "To some extent", tr: "Bir dereceye kadar", ex: "I agree to some extent." },
         { en: "I know what you mean, but...", tr: "Ne demek istediğini biliyorum ama ...", ex: "I know what you mean, but it's worth trying." },
         { en: "Fair enough.", tr: "Haklısın / Makul.", ex: "Fair enough — let's do it your way." },
-        { en: "I take your point.", tr: "Anlıyorum / Haklısınız (resmi).", ex: "I take your point, but the deadline is fixed." }
+        { en: "I take your point.", tr: "Ne demek istediğinizi anlıyorum (genelde ardından 'but' gelir; resmi).", ex: "I take your point, but the deadline is fixed." }
       ],
       exercises: [
         { type: "mcq", q: "A colleague says: ‘We should cut the price by twenty percent.’ You disagree. Most polite reply?",
@@ -517,7 +517,7 @@ window.EA_MODULES.push({
           options: ["Are you hungry or not?", "Do you eat everything I order?", "Is there anything you don't eat?", "What's your diet weight?"],
           answer: 2, explain: "Diyet/yemek kısıtlamasını kibarca sormak önemlidir." },
         { type: "order", answer: "Please put your wallet away, this one's on us", tr: "Lütfen cüzdanınızı kaldırın, bu bizden.",
-          alts: ["Please put away your wallet, this one's on us", "This one's on us, please put your wallet away", "This one's on us, please put away your wallet", "Put your wallet away, please, this one's on us", "Put away your wallet, please, this one's on us"],
+          alts: ["Please put away your wallet, this one's on us", "This one's on us, please put your wallet away", "This one's on us, please put away your wallet", "Put your wallet away, please, this one's on us", "Put away your wallet, please, this one's on us", "This one's on us, put your wallet away, please", "This one's on us, put away your wallet, please"],
           explain: "'This one's on us' = hesap bizden." },
         { type: "match", pairs: [["Help yourself.", "Buyurun, alın."], ["Make yourself at home.", "Rahatınıza bakın."], ["Feel free to ask.", "Çekinmeden sorun."], ["This one's on us.", "Bu bizden."]],
           explain: "Misafirperverlik ifadeleri." },
@@ -582,7 +582,7 @@ window.EA_MODULES.push({
           options: ["I ran into an old friend at the mall.", "I ran out an old friend at the mall.", "I ran over an old friend at the mall.", "I ran off an old friend at the mall."],
           answer: 0, explain: "'Run into' = tesadüfen rastlamak. ('Run over' = ezmek!)" },
         { type: "fill", q: "It's been ages! We should ___ up over coffee.", answers: ["catch", "meet"], hint: "hasret gidermek",
-          explain: "'Catch up' = birbirinin haberlerini almak." },
+          explain: "'Catch up' = birbirinin haberlerini almak, hasret gidermek. ('Meet up' = buluşmak; o da olur.)" },
         { type: "fill", q: "The client visit was ___ off because of the storm, and it won't be rescheduled.", answers: ["called"], hint: "iptal edildi",
           explain: "'Call off' = iptal etmek; pasif: was called off." },
         { type: "match", pairs: [["put off", "ertelemek"], ["turn down", "reddetmek"], ["figure out", "çözmek"], ["hang out", "takılmak"], ["drop by", "uğramak"], ["end up", "sonunda ... olmak"]],
@@ -641,7 +641,7 @@ window.EA_MODULES.push({
         { en: "get the hang of it", tr: "işi kapmak, alışmak", ex: "It's tricky at first, but you'll get the hang of it." },
         { en: "under the weather", tr: "biraz hasta, keyifsiz", ex: "Sorry, I'm a bit under the weather today." },
         { en: "call it a day", tr: "günü bitirmek, paydos etmek", ex: "It's seven o'clock — let's call it a day." },
-        { en: "touch base", tr: "kısaca haberleşmek", ex: "Let's touch base next week about the order." },
+        { en: "touch base", tr: "kısaca haberleşmek (iş jargonu)", ex: "Let's touch base next week about the order." },
         { en: "hit it off", tr: "hemen anlaşmak, kaynaşmak", ex: "We hit it off straight away." },
         { en: "once in a blue moon", tr: "kırk yılda bir", ex: "I only eat fast food once in a blue moon." }
       ],
@@ -668,7 +668,7 @@ window.EA_MODULES.push({
           options: ["dangerous", "very cheap", "far away", "very expensive"],
           answer: 3, explain: "'Cost an arm and a leg' = çok pahalı." },
         { type: "order", answer: "We hit it off straight away", tr: "Hemen kaynaştık / anlaştık.",
-          explain: "'Hit it off' = birisiyle hemen anlaşmak." },
+          explain: "'Hit it off' = birisiyle hemen anlaşmak. (Amerikan İngilizcesinde 'right away' daha yaygın.)" },
         { type: "fill", q: "A funny story is a great way to break the ___ at a dinner.", answers: ["ice"], hint: "buz",
           explain: "'Break the ice' = ilk gerginliği gidermek." },
         { type: "listen", text: "Sorry, I'm a bit under the weather today.", tr: "Kusura bakma, bugün biraz rahatsızım." }
@@ -781,7 +781,7 @@ window.EA_MODULES.push({
           answer: 1, explain: "'You're on mute' = mikrofonun kapalı." },
         { type: "fill", q: "Sorry, you broke ___ there. Could you say that again?", answers: ["up"], hint: "break ___",
           explain: "'Break up' = (bağlantıda) sesin kesilmesi." },
-        { type: "order", answer: "Let me share my screen so you can see", tr: "Görebilmeniz için ekranımı paylaşayım.",
+        { type: "order", answer: "Let me share my screen so you can see the drawings", tr: "Çizimleri görebilmeniz için ekranımı paylaşayım.",
           explain: "Ekran paylaşma kalıbı." },
         { type: "mcq", q: "Someone calls: ‘Hello, could I speak to Oğuz Ceyhan, please?’ You are Oğuz. You say:",
           options: ["Yes, I am him.", "Me.", "Speaking.", "Oğuz is talking."],
@@ -865,7 +865,7 @@ window.EA_MODULES.push({
         { type: "mcq", q: "Which phrase means you're giving an estimate without checking?",
           options: ["To be exact,", "According to the report,", "After checking,", "Off the top of my head,"],
           answer: 3, explain: "'Off the top of my head' = kontrol etmeden, aklıma ilk gelen." },
-        { type: "fill", q: "Just to ___, is that price per square metre?", answers: ["clarify", "confirm", "check", "be clear", "be sure", "double-check", "double check"], hint: "netleştirmek",
+        { type: "fill", q: "Just to ___, is that price per square metre?", answers: ["clarify", "confirm", "check", "be clear", "be sure", "make sure", "double-check", "double check"], hint: "netleştirmek",
           explain: "'Just to clarify' = netleştirmek için soruyorum. ('Just to confirm / check / be clear' da doğal.)" },
         { type: "listen", text: "Could you elaborate on that a little?", tr: "Bunu biraz açabilir misin?" },
         { type: "mcq", q: "A: ‘So you're saying the price will go up?’ That's not what you meant. Best reply?",
@@ -1025,11 +1025,11 @@ window.EA_MODULES.push({
           "İngiliz / Amerikan: flat / apartment, lift / elevator, queue / line, holiday / vacation, the bill / the check, mobile / cell phone."
         ],
         examples: [
-          { en: "It was sort of a last-minute thing.", tr: "Biraz son dakika bir şeydi." },
+          { en: "It was sort of a last-minute thing.", tr: "Biraz son dakika gelişen bir şeydi." },
           { en: "There were twenty or so people at the dinner.", tr: "Yemekte yirmi kadar kişi vardı." },
           { en: "Shall we meet at six-ish?", tr: "Altı gibi buluşalım mı?" },
           { en: "I was wondering if you might be free next week.", tr: "Acaba gelecek hafta müsait olur musunuz diye merak ediyordum." },
-          { en: "Could we get the bill, please? (US: the check)", tr: "Hesabı alabilir miyiz lütfen?" }
+          { en: "Could we get the bill, please?", tr: "Hesabı alabilir miyiz lütfen? (Amerikan: the check)" }
         ]
       },
       cards: [
