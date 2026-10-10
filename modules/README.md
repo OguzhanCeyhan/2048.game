@@ -77,8 +77,59 @@ Tüm `explain` alanları **Türkçe**, kısa (neden doğru?) açıklamadır. Sor
 - Kısa ve net cümle (4-12 kelime). Rakam yerine yazıyla yaz ("four" — "4" değil).
   Kontrol noktalama ve büyük/küçük harften bağımsız yapılır.
 
+### 6. `combine` — kısa cümleleri tek uzun cümlede birleştirme (kelime kartlarıyla)
+```js
+{ type: "combine",
+  parts: ["The glass arrived two weeks late.", "We missed the installation date."],
+  answer: "Because the glass arrived two weeks late, we missed the installation date.",
+  alts: ["We missed the installation date because the glass arrived two weeks late."],
+  extra: ["although", "so"],          // yanlış bağlaç çeldiricileri (önerilir)
+  tr: "Cam iki hafta geç geldiği için kurulum tarihini kaçırdık.",
+  explain: "Sebep (because) + sonuç: 'because' cümlesi başa gelirse virgül konur." }
+```
+- `parts`: 2-3 kısa cümle; `answer`: hepsinin anlamını taşıyan tek doğru cümle (12-28 kelime).
+- Motor `answer` (+ `extra`) kelimelerini karıştırıp kart olarak verir; `alts` kelimeleri `answer` ile birebir aynı olmalı.
+
+## Konu anlatımı (`teach`) — ünitenin ilk ~6-7 dakikası
+
+Her ünitenin bir `teach` dizisi vardır (5-6 adım). Ders, sorulardan **önce** bu adımları sırayla
+slayt gibi gösterir; her adımdan sonra (varsa) tek bir `check` sorusu gelir. Amaç kuralı ezberletmek değil
+**mantığını oturtmak** ve **kısa cümleleri uzun, doğru cümlelere birleştirmeyi** öğretmektir.
+
+```js
+teach: [
+  { title: "Mantık: Neden present perfect?",            // kısa başlık
+    tr: "Türkçe anlatım. Paragraflar \n\n ile ayrılır.",  // 2-5 cümlelik net anlatım
+    pattern: "Özne + have/has + V3 (+ since/for ...)",   // opsiyonel: cümle kalıbı
+    logic: "Türkçedeki '-dı' ile karşılaştırmalı mantık açıklaması.", // opsiyonel ama önerilir
+    examples: [                                          // 3-5 örnek, 12-25 kelimelik UZUN cümleler
+      { en: "We have tested every pane twice because the surveyor asked for extra documentation.",
+        tr: "Sörveyör ek doküman istediği için her camı iki kez test ettik.",
+        note: "have tested = sonuç şimdi önemli; because = sebep" } ],
+    mistakes: [ { wrong: "I have seen him yesterday.", right: "I saw him yesterday.",
+                  why: "Belirli geçmiş zaman (yesterday) → past simple." } ],   // opsiyonel
+    check: { type: "mcq", q: "...", options: [...], answer: 0, explain: "..." } // opsiyonel, 1 alıştırma
+  }
+]
+```
+Önerilen adım sırası: (1) Mantık / ne zaman kullanılır, (2) Kalıp ve yapı, (3) İş bağlamında uzun örnekler
+(müşteriye anlatır gibi; sebep → aksiyon → sonuç), (4) Günlük konuşmada uzun örnekler,
+(5) Kısa cümlelerden uzun cümle kurma (birleştirme adım adım), (6) Sık yapılan hatalar + mini diyalog/e-posta.
+
+Mevcut üniteler için `teach` ve ek alıştırmalar ayrı dosyalarda tutulur: `modules/teach/<modülId>.js`
+```js
+window.EA_TEACH = window.EA_TEACH || {};
+Object.assign(window.EA_TEACH, {
+  "tenses-01": { teach: [ /* 5-6 adım */ ], extra: [ /* 5-6 ek alıştırma, en az 2 combine */ ] },
+});
+```
+Motor `extra` alıştırmalarını ünitenin `exercises` listesinin sonuna ekler. Yeni ünitelerde `teach`
+doğrudan unit nesnesinin içine yazılır.
+
 ## Kurallar
-- Her unit: 10-14 alıştırma; en az 3 farklı tip; en az 1 `order`, en az 1 `fill`.
+- Her unit: 10-14 alıştırma (+ teach dosyasındaki 5-6 ek alıştırma); en az 3 farklı tip; en az 1 `order`, en az 1 `fill`.
+- Ünite toplam ~15 dakika: ~6-7 dk konu anlatımı + ~8 dk alıştırma.
+- Cümleler kısa kalmasın: örneklerin çoğu 12-25 kelime, bağlaçlarla birleşik, sebep-sonuç içeren cümleler olsun.
 - Örnek cümleler mümkün olduğunca **iki bağlamdan** gelsin:
   1. Gemi camı üreten bir firmanın yabancı müşterilerle iletişimi
      (teklif, sipariş, teknik özellik, sertifika, sevkiyat, şikayet, toplantı).

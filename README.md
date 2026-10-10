@@ -21,7 +21,7 @@ Kurulum gerektirmez: saf HTML/CSS/JavaScript, build yok, internet bağlantısı 
 | 💬 **Günlük Konuşma** | Tanışma, small talk konuları, sohbeti sürdürme, fikir belirtme, müşteriyle sosyal sohbet, phrasal verbs, deyimler, telefon/video görüşmeleri |
 | 🔗 **Bağlaçlar & Akıcılık** | Ekleme, zıtlık, sebep–sonuç, amaç, koşul, konuşma dolguları (well, actually, anyway…), resmi e-posta bağlaçları, C1 concession (albeit, notwithstanding…) |
 
-Her modül 16 üniteden oluşur; her hafta her modülden 2 ünite (toplam 10) planlanmıştır.
+Zamanlar, Gramer ve Bağlaçlar 16'şar, Gemi Camı ve Günlük Konuşma 19'ar üniteden oluşur. Her ünite ~15 dakikadır.
 
 ## 8 haftalık plan
 
@@ -32,14 +32,15 @@ Her modül 16 üniteden oluşur; her hafta her modülden 2 ünite (toplam 10) pl
 | 5–6 | B2+ | Hikâye ve rapor dili, ikna, sorun çözme |
 | 7–8 | C1 | Vurgu ve incelik, resmi ve doğal ustalık |
 
-- **Günlük görev (~20–25 dk):** uygulama her gün 2 ünite (en çok geride kalan modüllerden) + 1 tekrar (kart tekrarı veya Hız Turu) önerir.
+- **Her ünite (~15 dk):** önce 5-6 adımlık konu anlatımı (mantık → kalıp → iş İngilizcesi örnekleri → günlük konuşma örnekleri → kısa cümlelerden uzun cümle kurma → sık yapılan hatalar), her adımdan sonra bir hızlı kontrol sorusu, ardından alıştırmalar.
+- **Günlük görev (~15–30 dk):** her gün 1 ünite (en çok geride kalan modülden) + 1 tekrar; planın gerisindeysen 2 ünite.
 - **Esnek:** daha fazla çalışmak istediğin gün istediğin modülde istediğin kadar ilerleyebilirsin; kilitli bir üniteyi de onaylayarak açabilirsin. Ayarlar'dan tüm üniteleri açmak da mümkün.
 - **Haftalık:** her haftanın sonunda o haftanın sınavı (hedef %80) ve 2 "gerçek hayat görevi" (konuşma kaydı, e-posta yazma vb.).
 - Not: 1–2 ayda B1'den C1'e çıkmak çok iddialı bir hedef. Plan seni sağlam bir B2+ seviyesine taşır ve C1 yapılarıyla tanıştırır. Uygulamanın dışında da İngilizce dinleyip okumak bu süreci belirgin şekilde hızlandırır.
 
 ## Alıştırma tipleri ve oyunlar
 
-- **Ünite içi:** çoktan seçmeli, boşluk doldurma (yazarak), kelimeleri dizerek cümle kurma, eşleştirme, dinle-yaz (tarayıcının sesli okuması; 🇬🇧/🇺🇸 aksan ve hız ayarlı).
+- **Ünite içi:** çoktan seçmeli, boşluk doldurma (yazarak), kelimeleri dizerek cümle kurma, **kısa cümleleri doğru bağlaçla tek uzun cümlede birleştirme**, eşleştirme, dinle-yaz (tarayıcının sesli okuması; 🇬🇧/🇺🇸 aksan ve hız ayarlı).
 - Yanlış cevaplanan sorular dersin sonunda tekrar sorulur ve **Hatalarım** bölümüne eklenir.
 - **Kart Tekrarı:** aralıklı tekrar (Leitner kutuları: 0-1-2-4-7-15-30-60 gün).
 - **Hız Turu:** 60 saniye, art arda doğrularla x5'e kadar çarpan.

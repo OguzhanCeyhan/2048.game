@@ -251,3 +251,25 @@ select, input[type="date"] { padding: 8px; border-radius: 10px; border: 2px soli
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .confetti { display: none; }
 }
+
+/* konu anlatımı adımları */
+.teach { max-width: 68ch; }
+.teach .eyebrow { font-size: .78rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.teach h2 { font-size: 1.4rem; margin-bottom: 10px; }
+.teach p { margin: 0 0 10px; }
+.teach .lbl { display: block; font-size: .75rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.pattern { background: var(--surface); border: 2px dashed var(--accent); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-weight: 600; font-size: 1.02rem; }
+.logic { background: color-mix(in srgb, var(--gold) 14%, var(--surface)); border-radius: 12px; padding: 10px 14px; margin: 12px 0; }
+.texs { display: grid; gap: 8px; margin: 12px 0; }
+.tex { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
+.tex .en { font-weight: 600; }
+.tex .tr { color: var(--muted); font-size: .92rem; margin-top: 2px; }
+.tex .note { font-size: .85rem; margin-top: 4px; color: var(--primary); }
+.mistakes { margin: 12px 0; }
+.mistake { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+.mistake .wrong { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 1px; }
+.mistake .right { color: var(--ok); font-weight: 600; }
+.mistake .why { font-size: .88rem; color: var(--muted); margin-top: 2px; }
+.q.parts .part { margin: 2px 0; }
+.lessonplan .steps { margin: 10px 0 14px; padding-left: 22px; color: var(--muted); font-size: .92rem; }
+.lessonplan .steps li { margin: 2px 0; }

@@ -11,6 +11,17 @@
     return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
   });
   const PLAN = window.EA_PLAN || { weeks: [], levels: ["B1+", "B2", "B2+", "C1"] };
+  // modules/teach/*.js: konu anlatımı adımları + uzun cümleli ek alıştırmalar
+  const TEACH = window.EA_TEACH || {};
+  MODULES.forEach((m) => m.units.forEach((u) => {
+    const t = TEACH[u.id];
+    if (!t) return;
+    if (t.teach && !u.teach) u.teach = t.teach;
+    if (t.extra && t.extra.length) u.exercises = u.exercises.concat(t.extra);
+  }));
+  const teachSteps = (u) => u.teach || [];
+  // tahmini süre: anlatım adımı ~70 sn, alıştırma ~30 sn
+  const unitMinutes = (u) => Math.max(5, Math.round((teachSteps(u).length * 70 + teachSteps(u).filter((t) => t.check).length * 25 + u.exercises.length * 30) / 60));
   const UNIT = {};
   MODULES.forEach((m) => m.units.forEach((u, i) => { UNIT[u.id] = { u, m, i }; }));
   const MOD = Object.fromEntries(MODULES.map((m) => [m.id, m]));
@@ -351,7 +362,8 @@
       const cands = MODULES.map((m, i) => ({ m, lag: moduleLag(m), rot: ((i - offset * 2) % n + n) % n }))
         .filter((x) => nextUnit(x.m))
         .sort((a, b) => (b.lag > 0) - (a.lag > 0) || b.lag - a.lag || a.rot - b.rot);
-      d.plan = cands.slice(0, 2).map((x) => nextUnit(x.m).id);
+      // üniteler ~15 dk: planın gerisindeysen 2, değilsen 1 ünite (+ tekrar) → günde 15-30 dk
+      d.plan = cands.slice(0, planDelta() < 0 ? 2 : 1).map((x) => nextUnit(x.m).id);
       save(false);
     }
     return d.plan;
@@ -364,6 +376,7 @@
     [/^#\/module\/([\w-]+)$/, viewModule],
     [/^#\/unit\/([\w-]+)$/, viewUnitIntro],
     [/^#\/lesson\/([\w-]+)$/, viewLesson],
+    [/^#\/learn\/([\w-]+)$/, viewLearn],
     [/^#\/games$/, viewGames],
     [/^#\/review$/, viewReview],
     [/^#\/speed$/, viewSpeed],
@@ -437,7 +450,7 @@
       const done = d.units.includes(id);
       return `<a class="task ${done ? "done" : ""}" href="#/unit/${id}" style="--accent:${x.m.color};--accent-ink:var(--on-bright)">
         <div class="ic">${done ? "✅" : x.m.icon}</div>
-        <div><div class="t">${esc(x.u.title)}</div><div class="small muted">${esc(x.m.title)} · ${x.u.level} · ~8-10 dk</div></div>
+        <div><div class="t">${esc(x.u.title)}</div><div class="small muted">${esc(x.m.title)} · ${x.u.level} · ~${unitMinutes(x.u)} dk</div></div>
         <div class="chev">›</div></a>`;
     }).join("");
     const practiceDone = d.review || d.game;
@@ -554,17 +567,23 @@
         <span class="badge lvl">${u.level}</span><span class="badge">Hafta ${u.week}</span><span class="badge">${m.icon} ${esc(m.title)}</span></div>
       <h1 style="margin-top:10px">${esc(u.title)}</h1>
       ${st && st.done ? `<p class="small muted">En iyi skor: %${Math.round((st.best || 0) * 100)} · <span class="stars">${"★".repeat(st.stars || 1)}</span></p>` : ""}
-      <div class="card"><h3>📖 Konu anlatımı</h3><p>${esc(it.tr)}</p>
+      <div class="card lessonplan"><div class="row"><b>⏱️ ~${unitMinutes(u)} dk</b><span class="spacer"></span>
+        <span class="small muted">${teachSteps(u).length ? `${teachSteps(u).length} adım konu anlatımı → ` : ""}${u.exercises.length} alıştırma</span></div>
+        ${teachSteps(u).length ? `<ol class="steps">${teachSteps(u).map((t) => `<li>${esc(t.title)}</li>`).join("")}</ol>` : ""}
+        <button class="btn block" id="start">${teachSteps(u).length ? "Derse başla: önce konu anlatımı" : `Derse başla · ${u.exercises.length} soru`}</button>
+        ${teachSteps(u).length && st ? `<button class="btn ghost block" id="learn" style="margin-top:10px">Sadece konu anlatımını tekrar oku</button>` : ""}</div>
+      <div class="card"><h3>📝 Özet</h3><p>${esc(it.tr)}</p>
         ${it.points && it.points.length ? `<ul>${it.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}</div>
       ${it.examples && it.examples.length ? `<div class="card"><h3>💡 Örnekler</h3>
         ${it.examples.map((e) => `<div class="ex"><div><b>${esc(e.en)}</b> ${sayBtn(e.en)}</div><div class="small muted">${esc(e.tr)}</div></div>`).join("")}</div>` : ""}
       ${u.cards && u.cards.length ? `<div class="card"><h3>🃏 Bu ünitenin kartları (${u.cards.length})</h3>
         ${u.cards.map((c) => `<div class="ex"><b>${esc(c.en)}</b> ${sayBtn(c.en)} — <span class="muted">${esc(c.tr)}</span>${c.ex ? `<div class="small muted"><i>${esc(c.ex)}</i></div>` : ""}</div>`).join("")}
         <p class="small muted">Üniteyi bitirince bu kartlar tekrar sistemine eklenir.</p></div>` : ""}
-      <button class="btn block" id="start">Derse başla · ${u.exercises.length} soru</button>
       <div style="height:16px"></div>
     </div>`;
     $("#start").addEventListener("click", () => go("#/lesson/" + id));
+    const learn = $("#learn");
+    if (learn) learn.addEventListener("click", () => go("#/learn/" + id));
   }
 
   // ================================================================ EXERCISE ENGINE
@@ -616,13 +635,13 @@
       return null;
     },
 
-    order(el, ex, finish, prompt = "Kelimeleri sıraya dizerek cümleyi kur") {
+    order(el, ex, finish, prompt = "Kelimeleri sıraya dizerek cümleyi kur", header = null) {
       const tokens = ex.answer.trim().split(/\s+/);
       let bank = shuffle(tokens.concat(ex.extra || []).map((t, i) => ({ t, id: i })));
       if (bank.length > 2 && bank.map((b) => b.t).join(" ") === tokens.join(" ")) bank = bank.slice(1).concat(bank[0]);
       const chosen = [];
       el.innerHTML = `<div class="prompt">${prompt}</div>
-        ${ex.tr ? `<div class="q">🇹🇷 ${esc(ex.tr)}</div>` : ""}
+        ${header != null ? header : ex.tr ? `<div class="q">🇹🇷 ${esc(ex.tr)}</div>` : ""}
         <div class="answer-line" id="line"></div>
         <div class="bank" id="bank"></div>
         <div style="margin-top:22px"><button class="btn block" id="chk" disabled>Kontrol et</button></div>`;
@@ -647,10 +666,17 @@
         locked = true; chk.disabled = true;
         const built = normLoose(chosen.map((c) => c.t).join(" "));
         const ok = [ex.answer].concat(ex.alts || []).some((a) => normLoose(a) === built);
-        finish(ok, { answer: ex.answer, say: ex.answer });
+        finish(ok, { answer: ex.answer + (ex.type === "combine" && ex.tr ? `\n🇹🇷 ${ex.tr}` : ""), say: ex.answer });
       };
       chk.addEventListener("click", check);
       return (e) => { if (e.key === "Enter") check(); else if (e.key === "Backspace" && chosen.length && !locked) { chosen.pop(); draw(); } };
+    },
+
+    // Kısa cümleleri tek uzun cümlede birleştirme (kelime kartlarıyla; extra = yanlış bağlaç çeldiricileri)
+    combine(el, ex, finish) {
+      const header = `<div class="q parts">${ex.parts.map((p) => `<div class="part">• ${esc(p)} ${sayBtn(p)}</div>`).join("")}
+        <div class="small muted" style="margin-top:6px">Doğru bağlacı seç; fazladan kartlar var.</div></div>`;
+      return EX.order(el, ex, finish, "Bu cümleleri tek cümlede birleştir", header);
     },
 
     match(el, ex, finish) {
@@ -710,13 +736,32 @@
     },
   };
 
-  /* Bir alıştırma oturumu çalıştırır.
-   * items: [{ex, uid, idx}] ; opts: {title, accent, requeue, onDone(result)} */
+  const paras = (t) => String(t || "").split(/\n\s*\n/).map((p) => `<p>${esc(p.trim()).replace(/\n/g, "<br>")}</p>`).join("");
+  function renderTeach(el, item) {
+    const st = item.teach;
+    el.innerHTML = `<div class="teach">
+      <div class="eyebrow">📖 Konu anlatımı · ${item.ti + 1}/${item.tn}</div>
+      <h2>${esc(st.title)}</h2>
+      ${paras(st.tr)}
+      ${st.pattern ? `<div class="pattern"><span class="lbl">Kalıp</span>${esc(st.pattern).replace(/\n/g, "<br>")}</div>` : ""}
+      ${st.logic ? `<div class="logic"><span class="lbl">🧠 Mantık</span>${esc(st.logic).replace(/\n/g, "<br>")}</div>` : ""}
+      ${(st.examples || []).length ? `<div class="texs">${st.examples.map((e) => `<div class="tex">
+        <div class="en">${esc(e.en)} ${sayBtn(e.en)}</div><div class="tr">${esc(e.tr)}</div>
+        ${e.note ? `<div class="note">↳ ${esc(e.note)}</div>` : ""}</div>`).join("")}</div>` : ""}
+      ${(st.mistakes || []).length ? `<div class="mistakes"><span class="lbl">⚠️ Sık yapılan hatalar</span>${st.mistakes.map((x) => `<div class="mistake">
+        <div class="wrong">✗ ${esc(x.wrong)}</div><div class="right">✓ ${esc(x.right)}</div>${x.why ? `<div class="why">${esc(x.why)}</div>` : ""}</div>`).join("")}</div>` : ""}
+    </div>`;
+  }
+
+  /* Bir ders/alıştırma oturumu çalıştırır.
+   * items: [{ex, uid, idx}] alıştırma · [{teach, ti, tn}] anlatım adımı · [{ex, check:true}] hızlı kontrol (puana sayılmaz)
+   * opts: {accent, requeue, exitTo, onDone(result)} */
   function runSession(items, opts) {
     document.body.classList.add("in-session");
     activeMode = true;
-    const queue = items.map((it) => ({ ...it, first: true }));
-    const total = items.length;
+    let queue = items.map((it) => ({ ...it, first: true }));
+    const total = items.filter((it) => !it.teach && !it.check).length;
+    const steps = items.length;
     let resolved = 0, firstCorrect = 0, xp = 0, streak = 0;
     const wrong = [];
     app.innerHTML = `<div class="session" style="${opts.accent ? `--accent:${opts.accent};--accent-ink:var(--on-bright)` : ""}">
@@ -736,8 +781,34 @@
       if (!queue.length) { activeMode = false; return opts.onDone({ firstCorrect, total, wrong, xp }); }
       const item = queue.shift();
       body.innerHTML = "";
-      if (!item.first) body.insertAdjacentHTML("beforeend", `<div class="badge" style="margin-bottom:10px">🔁 Tekrar deneme</div>`);
-      const host = document.createElement("div"); body.appendChild(host);
+      const host = document.createElement("div");
+      if (item.teach) {
+        body.appendChild(host);
+        renderTeach(host, item);
+        DEBUG.current = { type: "teach" };
+        const hasMore = queue.some((x) => x.teach);
+        foot.className = "sess-foot";
+        foot.innerHTML = `<button class="btn block" id="cont">${hasMore ? "Anladım, devam" : "Anladım, alıştırmalara geç"}</button>
+          ${queue.some((x) => !x.teach && !x.check) ? `<p class="small" style="text-align:center;margin:8px 0 0"><button class="linkbtn" id="skipteach">Anlatımı geç, sorulara başla</button></p>` : ""}`;
+        foot.hidden = false;
+        let advanced = false;
+        const advance = () => { if (advanced) return; advanced = true; resolved++; prog.style.width = (resolved / steps) * 100 + "%"; next(); };
+        $("#cont").addEventListener("click", advance);
+        const skip = $("#skipteach");
+        if (skip) skip.addEventListener("click", () => {
+          if (advanced) return; advanced = true;
+          const removed = queue.filter((x) => x.teach || x.check).length + 1;
+          queue = queue.filter((x) => !x.teach && !x.check);
+          resolved += removed; prog.style.width = (resolved / steps) * 100 + "%";
+          next();
+        });
+        keyHandler = (e) => { if (e.key === "Enter") { e.preventDefault(); advance(); } };
+        window.scrollTo(0, 0);
+        return;
+      }
+      if (item.check) body.insertAdjacentHTML("beforeend", `<div class="badge" style="margin-bottom:10px">⚡ Hızlı kontrol</div>`);
+      else if (!item.first) body.insertAdjacentHTML("beforeend", `<div class="badge" style="margin-bottom:10px">🔁 Tekrar deneme</div>`);
+      body.appendChild(host);
       const fn = EX[item.ex.type];
       if (!fn) return next();
       DEBUG.current = item.ex;
@@ -747,16 +818,18 @@
 
     const feedback = (item, ok, info) => {
       beep(ok);
-      if (item.first) {
+      if (item.check) { /* hızlı kontrol: puana ve hatalara sayılmaz */ }
+      else if (item.first) {
         if (ok) { firstCorrect++; clearMistake(item); } else { wrong.push(item); recordMistake(item); }
       }
       streak = ok ? streak + 1 : 0;
       $("#combo").textContent = streak >= 3 ? `🔥 ${streak}` : "";
       const gain = ok ? (item.first ? 10 : 5) + (streak >= 5 ? 2 : 0) : 0;
       xp += gain; addXP(gain);
-      if (ok || !item.first || !opts.requeue) resolved++;
-      if (!ok && item.first && opts.requeue) queue.push({ ...item, first: false });
-      prog.style.width = (resolved / total) * 100 + "%";
+      const retry = !ok && item.first && opts.requeue && !item.check;
+      if (!retry) resolved++;
+      else queue.push({ ...item, first: false });
+      prog.style.width = (resolved / steps) * 100 + "%";
       const praise = ["Harika!", "Mükemmel!", "Çok iyi!", "Süper!", "Aynen öyle!", "Bravo!"];
       const answerHtml = info.answer
         ? (info.plainAnswer ? esc(info.answer) : `${ok ? "" : "Doğru cevap: "}<b>${esc(info.answer).replace(/\n/g, "<br>")}</b>`) : "";
@@ -800,18 +873,40 @@
     switch (ex.type) {
       case "mcq": return `${fmtQ(ex.q)}<br>→ <b>${esc(ex.options[ex.answer])}</b>`;
       case "fill": return `${fmtQ(ex.q)}<br>→ <b>${esc(ex.answers[0])}</b>`;
-      case "order": return `<b>${esc(ex.answer)}</b>${ex.tr ? `<div class="small muted">${esc(ex.tr)}</div>` : ""}`;
+      case "order":
+      case "combine": return `${ex.parts ? `<div class="small muted">${ex.parts.map(esc).join(" + ")}</div>` : ""}<b>${esc(ex.answer)}</b>${ex.tr ? `<div class="small muted">${esc(ex.tr)}</div>` : ""}`;
       case "listen": return `<b>${esc(ex.text)}</b> ${sayBtn(ex.text)}${ex.tr ? `<div class="small muted">${esc(ex.tr)}</div>` : ""}`;
       case "match": return ex.pairs.map((p) => `${esc(p[0])} = <b>${esc(p[1])}</b>`).join("<br>");
       default: return "";
     }
   }
 
+  function lessonSteps(u) {
+    const steps = teachSteps(u), out = [];
+    steps.forEach((t, ti) => {
+      out.push({ teach: t, ti, tn: steps.length });
+      if (t.check) out.push({ ex: t.check, check: true });
+    });
+    return out;
+  }
+  // Sadece konu anlatımı (tekrar okumak için); ilerlemeyi değiştirmez
+  function viewLearn(id) {
+    const x = UNIT[id];
+    if (!x || !teachSteps(x.u).length) return go("#/unit/" + id);
+    runSession(lessonSteps(x.u), {
+      accent: x.m.color, requeue: false, exitTo: "#/unit/" + id,
+      onDone: ({ xp }) => resultScreen({
+        title: "Konu anlatımı bitti", emoji: "📖", stats: [[teachSteps(x.u).length, "adım"], [`+${xp}`, "XP"], [`${Math.floor(day().sec / 60)} dk`, "bugün"]],
+        buttons: [{ label: "Alıştırmalara başla", fn: () => go("#/lesson/" + id) }, { label: "Üniteye dön", ghost: true, fn: () => go("#/unit/" + id) }],
+      }),
+    });
+  }
+
   function viewLesson(id) {
     const x = UNIT[id];
     if (!x) return go("#/modules");
     const { u, m, i } = x;
-    const items = u.exercises.map((ex, idx) => ({ ex, uid: u.id, idx }));
+    const items = lessonSteps(u).concat(u.exercises.map((ex, idx) => ({ ex, uid: u.id, idx })));
     runSession(items, {
       accent: m.color, requeue: true, exitTo: "#/module/" + m.id,
       onDone: ({ firstCorrect, total, wrong, xp }) => {
@@ -1156,7 +1251,7 @@
     app.innerHTML = `<div class="wrap">${topStats()}
       <h1>8 Haftalık Yol Haritası</h1>
       <div class="card">
-        <p style="margin-top:0"><b>B1 → C1</b> · ${totalUnits()} ünite · günde <b>15–30 dk</b>. Her gün uygulama sana 2 ünite + 1 tekrar görevi verir (~20-25 dk).
+        <p style="margin-top:0"><b>B1 → C1</b> · ${totalUnits()} ünite · günde <b>15–30 dk</b>. Her ünite ~15 dk: önce adım adım konu anlatımı, sonra alıştırmalar. Her gün 1 ünite + 1 tekrar görevi gelir; planın gerisindeysen 2 ünite (~15-30 dk).
         Daha fazla çalışmak istediğin gün, istediğin modülde ilerleyebilirsin.</p>
         <div class="row small"><span>Genel ilerleme: <b>${totalDone()}/${totalUnits()}</b></span><span class="spacer"></span><span>Tamamlanan seviye: <b>${lvl}</b></span></div>
         <div class="bar" style="margin-top:8px"><i style="width:${(totalDone() / Math.max(1, totalUnits())) * 100}%"></i></div>
