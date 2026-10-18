@@ -11,7 +11,7 @@ Kurulum gerektirmez: saf HTML/CSS/JavaScript, build yok, internet bağlantısı 
 - **Telefonda kullanmak için:** repo ayarlarından GitHub Pages'i aç (Settings → Pages → bu dal, `/ (root)`), sonra verilen adresi telefonda açıp "Ana ekrana ekle" de.
 - **Yerel sunucu:** `python3 -m http.server` → <http://localhost:8000>
 
-## Modüller (5 modül · 80 ünite · ~1000 alıştırma · ~700 tekrar kartı)
+## Modüller (5 modül · 86 ünite · ~1600 alıştırma · ~800 tekrar kartı · her ünitede 6 adımlık konu anlatımı)
 
 | Modül | İçerik |
 |---|---|
