@@ -1,0 +1,9 @@
+{
+  "name": "English Voyage · B1 → C1",
+  "short_name": "English Voyage",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef3f6",
+  "theme_color": "#17457a",
+  "icons": []
+}
