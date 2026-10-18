@@ -17,11 +17,29 @@
     const t = TEACH[u.id];
     if (!t) return;
     if (t.teach && !u.teach) u.teach = t.teach;
-    if (t.extra && t.extra.length) u.exercises = u.exercises.concat(t.extra);
+    if (t.extra && t.extra.length) { u.extraStart = u.exercises.length; u.exercises = u.exercises.concat(t.extra); }
   }));
   const teachSteps = (u) => u.teach || [];
-  // tahmini süre: anlatım adımı ~70 sn, alıştırma ~30 sn
-  const unitMinutes = (u) => Math.max(5, Math.round((teachSteps(u).length * 70 + teachSteps(u).filter((t) => t.check).length * 25 + u.exercises.length * 30) / 60));
+  // Bir derste en fazla 12 alıştırma (~15 dk). Kalanlar testlerde ve tekrarda kullanılır.
+  const LESSON_MAX = 12;
+  const lessonSize = (u) => Math.min(u.exercises.length, LESSON_MAX);
+  // tahmini süre: anlatım adımı ~65 sn, hızlı kontrol ~25 sn, alıştırma ~30 sn
+  const unitMinutes = (u) => Math.max(5, Math.round((teachSteps(u).length * 65 + teachSteps(u).filter((t) => t.check).length * 25 + lessonSize(u) * 30) / 60));
+  // Ders alıştırmaları: uzun cümle alıştırmalarının hepsi (birleştirme + ek alıştırmalar, en fazla 7)
+  // + kalan yere tiplerine göre dengeli seçilmiş temel alıştırmalar. Önce temel, sonra uzun olanlar gelir.
+  function lessonExercises(u) {
+    const all = u.exercises.map((ex, idx) => ({ ex, uid: u.id, idx }));
+    if (all.length <= LESSON_MAX) return all;
+    const isLong = (x) => x.ex.type === "combine" || (u.extraStart != null && x.idx >= u.extraStart);
+    const long = all.filter(isLong).slice(0, 7);
+    const byType = {};
+    shuffle(all.filter((x) => !isLong(x))).forEach((x) => { (byType[x.ex.type] = byType[x.ex.type] || []).push(x); });
+    const types = shuffle(Object.keys(byType)), basic = [];
+    while (basic.length + long.length < LESSON_MAX && types.some((t) => byType[t].length)) {
+      types.forEach((t) => { if (byType[t].length && basic.length + long.length < LESSON_MAX) basic.push(byType[t].shift()); });
+    }
+    return basic.sort((a, b) => a.idx - b.idx).concat(long);
+  }
   const UNIT = {};
   MODULES.forEach((m) => m.units.forEach((u, i) => { UNIT[u.id] = { u, m, i }; }));
   const MOD = Object.fromEntries(MODULES.map((m) => [m.id, m]));
@@ -568,9 +586,9 @@
       <h1 style="margin-top:10px">${esc(u.title)}</h1>
       ${st && st.done ? `<p class="small muted">En iyi skor: %${Math.round((st.best || 0) * 100)} · <span class="stars">${"★".repeat(st.stars || 1)}</span></p>` : ""}
       <div class="card lessonplan"><div class="row"><b>⏱️ ~${unitMinutes(u)} dk</b><span class="spacer"></span>
-        <span class="small muted">${teachSteps(u).length ? `${teachSteps(u).length} adım konu anlatımı → ` : ""}${u.exercises.length} alıştırma</span></div>
+        <span class="small muted">${teachSteps(u).length ? `${teachSteps(u).length} adım konu anlatımı → ` : ""}${lessonSize(u)} alıştırma</span></div>
         ${teachSteps(u).length ? `<ol class="steps">${teachSteps(u).map((t) => `<li>${esc(t.title)}</li>`).join("")}</ol>` : ""}
-        <button class="btn block" id="start">${teachSteps(u).length ? "Derse başla: önce konu anlatımı" : `Derse başla · ${u.exercises.length} soru`}</button>
+        <button class="btn block" id="start">${teachSteps(u).length ? "Derse başla: önce konu anlatımı" : `Derse başla · ${lessonSize(u)} soru`}</button>
         ${teachSteps(u).length && st ? `<button class="btn ghost block" id="learn" style="margin-top:10px">Sadece konu anlatımını tekrar oku</button>` : ""}</div>
       <div class="card"><h3>📝 Özet</h3><p>${esc(it.tr)}</p>
         ${it.points && it.points.length ? `<ul>${it.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}</div>
@@ -675,7 +693,7 @@
     // Kısa cümleleri tek uzun cümlede birleştirme (kelime kartlarıyla; extra = yanlış bağlaç çeldiricileri)
     combine(el, ex, finish) {
       const header = `<div class="q parts">${ex.parts.map((p) => `<div class="part">• ${esc(p)} ${sayBtn(p)}</div>`).join("")}
-        <div class="small muted" style="margin-top:6px">Doğru bağlacı seç; fazladan kartlar var.</div></div>`;
+        ${ex.extra && ex.extra.length ? `<div class="small muted" style="margin-top:6px">Doğru bağlacı seç; fazladan kartlar var.</div>` : ""}</div>`;
       return EX.order(el, ex, finish, "Bu cümleleri tek cümlede birleştir", header);
     },
 
@@ -906,7 +924,7 @@
     const x = UNIT[id];
     if (!x) return go("#/modules");
     const { u, m, i } = x;
-    const items = lessonSteps(u).concat(u.exercises.map((ex, idx) => ({ ex, uid: u.id, idx })));
+    const items = lessonSteps(u).concat(lessonExercises(u));
     runSession(items, {
       accent: m.color, requeue: true, exitTo: "#/module/" + m.id,
       onDone: ({ firstCorrect, total, wrong, xp }) => {
